@@ -219,6 +219,14 @@ public:
 	//--------------------------------- PROTECTED ---------------------------------//
 protected:
 	/**
+	 * BlueprintReadWrite
+	 *
+	 * Peut être lu et modifié depuis un Blueprint. Incompatible avec le specifier BlueprintReadOnly
+	 */
+	UPROPERTY(BlueprintReadWrite, Category = "Les Indispensables|ReadWrite")
+	int32 MyInt_BlueprintReadWrite = 30;
+	
+	/**
 	 * VisibleDefaultsOnly, BlueprintReadWrite
 	 *
 	 * Peut être lu et modifié depuis un Blueprint. Incompatible avec le specifier BlueprintReadOnly
@@ -269,6 +277,14 @@ protected:
 	//--------------------------------- READ ONLY---------------------------------//
 	//--------------------------------- PROTECTED ---------------------------------//
 protected:
+	/**
+	 * BlueprintReadOnly
+	 * 
+	 * Peut être lu mais ne peut pas être modifié depuis un Blueprint. Incompatible avec le specifier BlueprintReadOnly
+	 */
+	UPROPERTY(BlueprintReadOnly, Category = "Les Indispensables|ReadOnly")
+	int32 MyInt_BlueprintReadOnly = 30;
+	
 	/**
 	 * VisibleDefaultsOnly, BlueprintReadOnly
 	 * 
