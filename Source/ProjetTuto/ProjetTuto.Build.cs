@@ -6,10 +6,9 @@ public class ProjetTuto : ModuleRules
 {
 	public ProjetTuto(ReadOnlyTargetRules Target) : base(Target)
 	{
+		PrivatePCHHeaderFile = "Private/ProjectTutoPCH.h";
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 		
-		PrivatePCHHeaderFile = "Private/ProjectTutoPCH.h";
-	
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "EnhancedInput" });
 
 		PrivateDependencyModuleNames.AddRange(new string[] {  });

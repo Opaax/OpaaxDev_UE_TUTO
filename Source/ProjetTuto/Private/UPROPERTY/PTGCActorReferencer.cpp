@@ -1,4 +1,4 @@
-﻿// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Enguerran COBERT Alias Opaax Dev, All Right Reserved
 
 #include "UPROPERTY/PTGCActorReferencer.h"
 #include "TimerManager.h"

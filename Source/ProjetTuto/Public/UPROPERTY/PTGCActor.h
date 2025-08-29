@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Enguerran COBERT Alias Opaax Dev, All Right Reserved
 
 #pragma once
 
@@ -19,6 +19,19 @@ class PROJETTUTO_API FMyCustomClass
 	~FMyCustomClass() = default;
 };
 
+UCLASS()
+class UMyClass : public UObject
+{
+	GENERATED_BODY()
+};
+
+USTRUCT()
+struct FMyStruct
+{
+	GENERATED_BODY()
+	
+};
+
 enum EMyRawEnum { EMRE_Max };
 
 UENUM()
@@ -28,6 +41,37 @@ UENUM()
 enum class EMyEnum2 : uint8 { EME2_Max };
 
 
+/**
+ * Les types que UHT peut interpréter:
+ *
+ * Les class Unreal:
+ * FString
+ * FVector
+ * FName
+ *
+ * Les primitives
+ * uint8,16,32...
+ * int8,16,32.....
+ * float
+ * double
+ *
+ * Les struct avec une balise USTRUCT
+ * ex: @FMyStruct
+ *
+ * les class avec une balise UCLASS et qui hérite au minimum de UObject
+ * ex: @UMyClass
+ *
+ * les enum avec une balise UENUM
+ * ex: @EMyEnum (pas recommandé et nécessite de 'TEnumAsByte<EMyEnum>'
+ * ex: @EMyEnum2 enum typé, uint8 ici
+ *
+ * les container Unreal
+ * TArray
+ * TMap
+ * TSet...
+ *
+ * Les class Std::CPP ne sont pas recommandées pour du code Runtime, en revanche, si le code est pour de l'éditor only il peut être utilisé
+ */
 UCLASS()
 class PROJETTUTO_API APTGCActor : public AActor
 {
@@ -65,6 +109,7 @@ public:
 	 */
 	UPROPERTY()
 	float MyFloat;
+	
 
 	/**
 	 * Ce membre n'est pas connu de l'éditeur
@@ -87,6 +132,7 @@ public:
 
 	UPROPERTY()
 	TObjectPtr<UPTGCObject> TObjObjectUProp;
+	
 
 	/**
 	 * seulement les class UCLASS qui hérite de UObject peuvent être Uprop
