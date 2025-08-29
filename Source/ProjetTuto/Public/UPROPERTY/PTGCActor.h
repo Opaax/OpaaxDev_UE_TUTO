@@ -11,7 +11,7 @@ class UPTGCObject;
 /**
  * @Class FMyCustomClass
  * Montrer le fonctionement de la macro UPROPERTY
- * Principalement pour la GC
+ * ne marche pas car pas UCLASS, hérite pas de UObject
  */
 class PROJETTUTO_API FMyCustomClass
 {
