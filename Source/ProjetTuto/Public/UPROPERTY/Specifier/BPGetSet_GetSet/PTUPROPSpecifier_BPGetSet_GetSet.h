@@ -1,4 +1,4 @@
-﻿// Enguerran COBERT Alias Opaax Dev, All Right 
+﻿// Enguerran COBERT Alias Opaax Dev, All Right Reserved
 
 #pragma once
 

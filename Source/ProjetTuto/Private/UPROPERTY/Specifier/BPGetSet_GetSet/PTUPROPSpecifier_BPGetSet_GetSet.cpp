@@ -1,12 +1,9 @@
 ﻿// Enguerran COBERT Alias Opaax Dev, All Right Reserved 
 
 #include "UPROPERTY/Specifier/BPGetSet_GetSet/PTUPROPSpecifier_BPGetSet_GetSet.h"
-
 #include "Kismet/GameplayStatics.h"
-
 #include UE_INLINE_GENERATED_CPP_BY_NAME(PTUPROPSpecifier_BPGetSet_GetSet)
 
-// Sets default values
 APTUPROPSpecifier_BPGetSet_GetSet::APTUPROPSpecifier_BPGetSet_GetSet(const FObjectInitializer& ObjectInitializer):Super(ObjectInitializer)
 {
 	PrimaryActorTick.bCanEverTick = false;
