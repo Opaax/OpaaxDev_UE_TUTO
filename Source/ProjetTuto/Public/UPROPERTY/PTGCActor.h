@@ -114,21 +114,21 @@ public:
 	/**
 	 * Ce membre n'est pas connu de l'éditeur
 	 */
-	float MyFloatNotReflected;
+	float MyFloatNotReflected{0};
 
 	/**
-	 * La GC va rendre se pointeur nullptr dès qu'il sera appelé
+	 * La GC détruira l'objet que se ptr pointe dès qu'il sera appelé
 	 */
-	UPTGCObject* RawObject;
+	UPTGCObject* RawObject{nullptr};
 
 	/**
-	 * La GC va rendre se pointeur nullptr dès qu'il sera appelé
-	 * MAIS si il est référencé par un autre objets il sera toujours valide!
+	 * La GC détruira l'objet que se ptr pointe dès qu'il sera appelé
+	 * MAIS si il est référencé par un autre FObjetsProperty il ne le sera pas!
 	 */
 	TObjectPtr<UPTGCObject> TObjObject;
 	
 	UPROPERTY()
-	UPTGCObject* RawObjectUProp;
+	UPTGCObject* RawObjectUProp{nullptr};
 
 	UPROPERTY()
 	TObjectPtr<UPTGCObject> TObjObjectUProp;
