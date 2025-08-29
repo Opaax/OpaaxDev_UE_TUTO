@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Enguerran COBERT Alias Opaax Dev, All Right Reserved
 
 #include "UPROPERTY/PTGCActor.h"
 #include "TimerManager.h"
@@ -25,7 +25,7 @@ void APTGCActor::LogUpropertyNames()
 		FString lValueStr;
 		lProp->ExportText_InContainer(0, lValueStr, this, this, this, PPF_None);
 
-		PT_WARNING(TEXT("Tuto Uproperty: %s: Property: %s, %s"), TEXT(__FUNCTION__), *lProp->GetName(), *lValueStr);
+		PT_WARNING(TEXT("Tuto Uproperty: %s: Property of type %s: %s, %s"), TEXT(__FUNCTION__), *lProp->GetClass()->GetName(), *lProp->GetName(), *lValueStr);
 	}
 }
 
