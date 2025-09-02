@@ -10,377 +10,260 @@
  * @class PTUPROPSpicifierIndispensable
  * Explique les UPROPERTY Specifiers indispensables
  * 
- * Unreal Docs: https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-uproperties
- * Unreal Garden: https://unreal-garden.com/docs/uproperty/
+ * Unreal Docs: @https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-uproperties
+ * Unreal Garden: @https://unreal-garden.com/docs/uproperty/
  */
 UCLASS()
 class PROJETTUTO_API APTUPROPSpicifierIndispensable : public AActor
 {
 	GENERATED_UCLASS_BODY()
-
 	//--------------------------------- MEMBERS ---------------------------------//
 	//--------------------------------- PUBLIC ---------------------------------//
 public:
-	//--------------------------------- CATEGORY - ADVANCED_DISPLAY ---------------------------------//
-		
+	//--------------------------------- RAPPEL ---------------------------------//
 	/**
-	 * Category
-	 * 
-	 * La catégorie de cette propriété quand elle est affichée dans les outils Blueprint.  
-	 * Des sous-catégories peuvent être définies en utilisant l'opérateur '|'.
-	 */
-	UPROPERTY(VisibleAnywhere, Category = "Les Indispensables|Category")
-	int32 MyInt_Category = 30;
+ * Il existe deux types de specifiers : 'Main Specifiers' et 'Meta Specifiers'.
+ * 
+ * La principale différence : les 'Meta Specifiers' sont utilisés uniquement par l’éditeur.
+ *  - Voir : https://dev.epicgames.com/documentation/en-us/unreal-engine/unreal-engine-uproperties#metadataspecifiers
+ */
+	UPROPERTY(VisibleAnywhere /*<---- Main Specifier*/, /* Meta Specifier --->*/ meta = (AllowPrivateAccess = "true"))
+	int32 MyInt_Rappel = 30;
 
+	//--------------------------------- CATEGORY ---------------------------------//
 	/**
-	 * AdvancedDisplay
+	 * Category (VisibleAnywhere, juste pour l’avoir dans le moteur en exemple)
 	 *
-	 * Cette propriété sera placée dans une section "Advanced" (menu déroulant), dans le panneau auquel elle appartient.
+	 * Permet de regrouper des variables dans le même panneau.
+	 *
+	 * - Seul, ce specifier n’est pas vraiment utile.
+	 * - Il doit avoir une valeur :
+	 *      - En natif (MyString_Category)
+	 *      - En string (MyString2_Category)
+	 *      - Si la catégorie contient des espaces -> string obligatoire
+	 * - Le caractère '|' permet de créer des sous-catégories
 	 */
-	UPROPERTY(VisibleAnywhere, Category = "Les Indispensables", AdvancedDisplay)
-	int32 MyInt_AdvancedDisplay = 30;
+	UPROPERTY(VisibleAnywhere, Category = Category)
+	FString MyString_Category = TEXT("CategoryNatif");
 
-	/**
-	 * AdvancedDisplay
-	 *
-	 * Cette propriété sera placée dans une section "Advanced" (menu déroulant), dans le panneau auquel elle appartient.  
-	 * Ne semble pas marcher avec les sous-catégories.
-	 */
-	UPROPERTY(VisibleAnywhere, Category = "Indispensables|Category", AdvancedDisplay)
-	int32 MyInt_AdvancedDisplay2 = 30;
+	UPROPERTY(VisibleAnywhere, Category = "Category")
+	FString MyString2_Category = TEXT("CategoryString");
 
-	/**
-	 * AdvancedDisplay
-	 *
-	 * Cette propriété sera placée dans une section "Advanced" (menu déroulant), dans le panneau auquel elle appartient.  
-	 * Ne semble pas marcher avec les sous-catégories.
-	 */
-	UPROPERTY(VisibleAnywhere, AdvancedDisplay)
-	int32 MyInt_AdvancedDisplay3 = 30;
-	
+	UPROPERTY(VisibleAnywhere, Category = "Category with space")
+	FString MyString3_Category = TEXT("CategoryStringWithSpace");
+
+	UPROPERTY(VisibleAnywhere, Category = "Category|SousCategory")
+	FString MyString4_Category = TEXT("CategorySousCategory");
+
 	//--------------------------------- EDIT ---------------------------------//
-	//--------------------------------- PRIVATE ---------------------------------//
 private:
 	/**
-	 * EditAnywhere
-	 * 
-	 * Indique que cette propriété peut être éditée dans les Property Windows,  
-	 * sur les archétypes et les instances.  
-	 * Ce specifier est incompatible avec n’importe quel specifier "Visible".
+	 * Les specifiers 'Edit', comme leur nom l’indique, permettent de rendre une variable éditable dans l’éditeur.
+	 *
+	 * L’accessibilité en C++ ('private', 'protected', 'public') n’a aucune incidence dans l’éditeur :
+	 * -> les variables seront visibles et éditables dans le panneau "Details".
+	 *
+	 * Ce specifier est composé de deux parties :
+	 * - Edit
+	 * - Anywhere, DefaultsOnly, InstanceOnly
+	 *
+	 * La deuxième partie définit le contexte dans lequel la variable est éditable :
+	 *
+	 * - EditAnywhere : la plus simple à comprendre, la variable est éditable dans tous les contextes.
+	 *
+	 * Attention :
+	 * - Si une variable est éditée dans le contexte instance, elle ne sera pas visible dans le contexte "Default".
+	 * - Si une variable est éditée dans le contexte "Default" et que l’instance ne l’a pas encore modifiée,
+	 *   alors l’instance héritera de cette valeur par défaut.
+	 * - Si l’instance a déjà surchargé la valeur, le bouton "Reset" restaurera la nouvelle valeur du "Default".
 	 */
-	UPROPERTY(EditAnywhere, Category = "Les Indispensables")
+	UPROPERTY(EditAnywhere, Category = "EditAnywhere")
 	int32 MyInt_EditAnywhere_private = 30;
 
-	/**
-	 * EditDefaultsOnly
-	 *
-	 * Indique que cette propriété peut être éditée dans les Property Windows,  
-	 * mais uniquement sur les archétypes.  
-	 * Ce specifier est incompatible avec n’importe quel specifier "Visible".
-	 */
-	UPROPERTY(EditDefaultsOnly, Category = "Les Indispensables")
-	int32 MyInt_EditDefaultsOnly_private = 30;
-
-	/**
-	 * EditInstanceOnly
-	 * 
-	 * Indique que cette propriété peut être éditée dans les Property Windows,  
-	 * mais uniquement sur les instances.  
-	 * Ce specifier est incompatible avec n’importe quel specifier "Visible".
-	 */
-	UPROPERTY(EditInstanceOnly, Category = "Les Indispensables")
-	int32 MyInt_EditInstanceOnly_private = 30;
-	
-	//--------------------------------- PROTECTED ---------------------------------//
 protected:
-	/**
-	 * EditAnywhere
-	 * 
-	 * Indique que cette propriété peut être éditée dans les Property Windows,  
-	 * sur les archétypes et les instances.  
-	 * Ce specifier est incompatible avec n’importe quel specifier "Visible".
-	 */
-	UPROPERTY(EditAnywhere, Category = "Les Indispensables")
+	UPROPERTY(EditAnywhere, Category = "EditAnywhere")
 	int32 MyInt_EditAnywhere_protected = 30;
 
-	/**
-	 * EditDefaultsOnly
-	 *
-	 * Indique que cette propriété peut être éditée dans les Property Windows,  
-	 * mais uniquement sur les archétypes.  
-	 * Ce specifier est incompatible avec n’importe quel specifier "Visible".
-	 */
-	UPROPERTY(EditDefaultsOnly, Category = "Les Indispensables")
-	int32 MyInt_EditDefaultsOnly_protected = 30;
-
-	/**
-	 * EditInstanceOnly
-	 * 
-	 * Indique que cette propriété peut être éditée dans les Property Windows,  
-	 * mais uniquement sur les instances.  
-	 * Ce specifier est incompatible avec n’importe quel specifier "Visible".
-	 */
-	UPROPERTY(EditInstanceOnly, Category = "Les Indispensables")
-	int32 MyInt_EditInstanceOnly_protected = 30;
-
-	//--------------------------------- PUBLIC ---------------------------------//
 public:
-	/**
-	 * EditAnywhere
-	 * 
-	 * Indique que cette propriété peut être éditée dans les Property Windows,  
-	 * sur les archétypes et les instances.  
-	 * Ce specifier est incompatible avec n’importe quel specifier "Visible".
-	 */
-	UPROPERTY(EditAnywhere, Category = "Les Indispensables")
+	UPROPERTY(EditAnywhere, Category = "EditAnywhere")
 	int32 MyInt_EditAnywhere_public = 30;
 
 	/**
-	 * EditDefaultsOnly
-	 *
-	 * Indique que cette propriété peut être éditée dans les Property Windows,  
-	 * mais uniquement sur les archétypes.  
-	 * Ce specifier est incompatible avec n’importe quel specifier "Visible".
+	 * Le contexte "Default" :
+	 * - Si vous venez de Unity : c’est similaire aux "Prefabs".
+	 *   Dans la scène on instancie une copie du prefab -> c’est l’instance.
+	 * - En Unreal, le contexte "Default" correspond à l’asset ouvert directement depuis le dossier "Content".
 	 */
-	UPROPERTY(EditDefaultsOnly, Category = "Les Indispensables")
+	UPROPERTY(EditDefaultsOnly, Category = "EditDefaultsOnly")
 	int32 MyInt_EditDefaultsOnly_public = 30;
 
 	/**
-	 * EditInstanceOnly
-	 * 
-	 * Indique que cette propriété peut être éditée dans les Property Windows,  
-	 * mais uniquement sur les instances.  
-	 * Ce specifier est incompatible avec n’importe quel specifier "Visible".
+	 * Le contexte "Instance" :
+	 * - Correspond à une instance placée dans un Level.
 	 */
-	UPROPERTY(EditInstanceOnly, Category = "Les Indispensables")
+	UPROPERTY(EditInstanceOnly, Category = "EditInstanceOnly")
 	int32 MyInt_EditInstanceOnly_public = 30;
-	
+
 	//--------------------------------- VISIBLE ---------------------------------//
-	//--------------------------------- PRIVATE ---------------------------------//
 private:
 	/**
-	 * VisibleAnywhere
+	 * Les specifiers 'Visible', comme leur nom l’indique, rendent la variable visible dans l’éditeur,
+	 * mais non-éditable.
 	 *
-	 * Indique que cette propriété est visible dans toutes les Property Windows,  
-	 * mais ne peut pas être éditée.  
-	 * Incompatible avec n’importe quel specifier "Edit".
+	 * Comme pour 'Edit', l’accessibilité en C++ n’a aucune incidence.
+	 * Les variables seront visibles dans le panneau "Details".
+	 *
+	 * Ils fonctionnent de la même manière que 'Edit', avec les mêmes sous-types (Anywhere, DefaultsOnly, InstanceOnly).
 	 */
-	UPROPERTY(VisibleAnywhere, Category = "Les Indispensables")
+	UPROPERTY(VisibleAnywhere, Category = "VisibleAnywhere")
 	int32 MyInt_VisibleAnywhere_private = 30;
 
-	/**
-	 * VisibleDefaultsOnly
-	 *
-	 * Indique que cette propriété est uniquement visible dans les Property Windows des archétypes,  
-	 * et ne peut pas être éditée.  
-	 * Incompatible avec n’importe quel specifier "Edit".
-	 */
-	UPROPERTY(VisibleDefaultsOnly, Category = "Les Indispensables")
-	int32 MyInt_VisibleDefaultsOnly_private = 30;
-
-	/**
-	 * VisibleInstanceOnly
-	 *
-	 * Indique que cette propriété est uniquement visible dans les Property Windows des instances,  
-	 * et ne peut pas être éditée.  
-	 * Incompatible avec n’importe quel specifier "Edit".
-	 */
-	UPROPERTY(VisibleInstanceOnly, Category = "Les Indispensables")
-	int32 MyInt_VisibleInstanceOnly_private = 30;
-
-	//--------------------------------- PROTECTED ---------------------------------//
 protected:
-	/**
-	 * VisibleAnywhere
-	 *
-	 * Indique que cette propriété est visible dans toutes les Property Windows,  
-	 * mais ne peut pas être éditée.  
-	 * Incompatible avec n’importe quel specifier "Edit".
-	 */
-	UPROPERTY(VisibleAnywhere, Category = "Les Indispensables")
+	UPROPERTY(VisibleAnywhere, Category = "VisibleAnywhere")
 	int32 MyInt_VisibleAnywhere_protected = 30;
 
-	/**
-	 * VisibleDefaultsOnly
-	 *
-	 * Indique que cette propriété est uniquement visible dans les Property Windows des archétypes,  
-	 * et ne peut pas être éditée.  
-	 * Incompatible avec n’importe quel specifier "Edit".
-	 */
-	UPROPERTY(VisibleDefaultsOnly, Category = "Les Indispensables")
-	int32 MyInt_VisibleDefaultsOnly_protected = 30;
-
-	/**
-	 * VisibleInstanceOnly
-	 *
-	 * Indique que cette propriété est uniquement visible dans les Property Windows des instances,  
-	 * et ne peut pas être éditée.  
-	 * Incompatible avec n’importe quel specifier "Edit".
-	 */
-	UPROPERTY(VisibleInstanceOnly, Category = "Les Indispensables")
-	int32 MyInt_VisibleInstanceOnly_protected = 30;
-
-	//--------------------------------- PUBLIC ---------------------------------//
 public:
-	/**
-	 * VisibleAnywhere
-	 *
-	 * Indique que cette propriété est visible dans toutes les Property Windows,  
-	 * mais ne peut pas être éditée.  
-	 * Incompatible avec n’importe quel specifier "Edit".
-	 */
-	UPROPERTY(VisibleAnywhere, Category = "Les Indispensables")
+	UPROPERTY(VisibleAnywhere, Category = "VisibleAnywhere")
 	int32 MyInt_VisibleAnywhere_public = 30;
 
 	/**
-	 * VisibleDefaultsOnly
-	 *
-	 * Indique que cette propriété est uniquement visible dans les Property Windows des archétypes,  
-	 * et ne peut pas être éditée.  
-	 * Incompatible avec n’importe quel specifier "Edit".
+	 * Exemple : @MyInt_EditDefaultsOnly_public
 	 */
-	UPROPERTY(VisibleDefaultsOnly, Category = "Les Indispensables")
+	UPROPERTY(VisibleDefaultsOnly, Category = "VisibleDefaultsOnly")
 	int32 MyInt_VisibleDefaultsOnly_public = 30;
 
 	/**
-	 * VisibleInstanceOnly
-	 *
-	 * Indique que cette propriété est uniquement visible dans les Property Windows des instances,  
-	 * et ne peut pas être éditée.  
-	 * Incompatible avec n’importe quel specifier "Edit".
+	 * Exemple : @MyInt_EditInstanceOnly_public
 	 */
-	UPROPERTY(VisibleInstanceOnly, Category = "Les Indispensables")
+	UPROPERTY(VisibleInstanceOnly, Category = "VisibleInstanceOnly")
 	int32 MyInt_VisibleInstanceOnly_public = 30;
 
 	//--------------------------------- READ WRITE ---------------------------------//
-	//--------------------------------- PROTECTED ---------------------------------//
 protected:
 	/**
-	 * BlueprintReadWrite
+	 * Le specifier BlueprintReadWrite permet d’exposer une variable aux Blueprints.
+	 * - Accès au getter
+	 * - Accès au setter
 	 *
-	 * Peut être lu et modifié depuis un Blueprint.  
-	 * Incompatible avec le specifier BlueprintReadOnly.
+	 * /!\ Ne peut pas être combiné avec 'BlueprintReadOnly'.
+	 * /!\ Ne supporte pas les membres 'private'.
+	 *
+	 * La variable sera visible dans le panneau "MyBlueprint" des Blueprints.
+	 * (si non visible : activer "Show inherited variables" dans l’engrenage du panneau 'MyBlueprint')
 	 */
-	UPROPERTY(BlueprintReadWrite, Category = "Les Indispensables|ReadWrite")
+	UPROPERTY(BlueprintReadWrite, Category = "ReadWrite")
 	int32 MyInt_BlueprintReadWrite = 30;
-	
-	/**
-	 * VisibleDefaultsOnly, BlueprintReadWrite
-	 *
-	 * Peut être lu et modifié depuis un Blueprint.  
-	 * Incompatible avec le specifier BlueprintReadOnly.
-	 */
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Les Indispensables|ReadWrite")
-	int32 MyInt_VDO_BlueprintReadWrite = 30;
 
-	/**
-	 * VisibleInstanceOnly, BlueprintReadWrite
-	 * 
-	 * Peut être lu et modifié depuis un Blueprint.  
-	 * Incompatible avec le specifier BlueprintReadOnly.
-	 */
-	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite, Category = "Les Indispensables|ReadWrite")
-	int32 MyInt_VIO_BlueprintReadWrite = 30;
-
-	/**
-	 * VisibleAnywhere, BlueprintReadWrite
-	 *
-	 * Peut être lu et modifié depuis un Blueprint.  
-	 * Incompatible avec le specifier BlueprintReadOnly.
-	 */
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Les Indispensables|ReadWrite")
-	int32 MyInt_VA_BlueprintReadWrite = 30;
-
-	/**
-	 * EditDefaultsOnly, BlueprintReadWrite
-	 * 
-	 * Peut être lu et modifié depuis un Blueprint.  
-	 * Incompatible avec le specifier BlueprintReadOnly.
-	 */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Les Indispensables|ReadWrite")
-	int32 MyInt_EDO_BlueprintReadWrite = 30;
-
-	/**
-	 * EditInstanceOnly, BlueprintReadWrite
-	 *
-	 * Peut être lu et modifié depuis un Blueprint.  
-	 * Incompatible avec le specifier BlueprintReadOnly.
-	 */
-	UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category = "Les Indispensables|ReadWrite")
-	int32 MyInt_EIO_BlueprintReadWrite = 30;
-
-	/**
-	 * EditAnywhere, BlueprintReadWrite
-	 *
-	 * Peut être lu et modifié depuis un Blueprint.  
-	 * Incompatible avec le specifier BlueprintReadOnly.
-	 */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Les Indispensables|ReadWrite")
-	int32 MyInt_EA_BlueprintReadWrite = 30;
-	
 	//--------------------------------- READ ONLY ---------------------------------//
-	//--------------------------------- PROTECTED ---------------------------------//
-protected:
 	/**
-	 * BlueprintReadOnly
-	 * 
-	 * Peut être lu mais ne peut pas être modifié depuis un Blueprint.  
-	 * Incompatible avec le specifier BlueprintReadWrite.
+	 * Le specifier BlueprintReadOnly permet d’exposer une variable aux Blueprints.
+	 * - Accès uniquement au getter
+	 *
+	 * /!\ Ne peut pas être combiné avec 'BlueprintReadWrite'.
+	 * /!\ Ne supporte pas les membres 'private'.
+	 *
+	 * (exemple similaire : @MyInt_BlueprintReadWrite)
 	 */
-	UPROPERTY(BlueprintReadOnly, Category = "Les Indispensables|ReadOnly")
+	UPROPERTY(BlueprintReadOnly, Category = "ReadOnly")
 	int32 MyInt_BlueprintReadOnly = 30;
-	
-	/**
-	 * VisibleDefaultsOnly, BlueprintReadOnly
-	 * 
-	 * Peut être lu mais ne peut pas être modifié depuis un Blueprint.  
-	 * Incompatible avec le specifier BlueprintReadWrite.
-	 */
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Les Indispensables|ReadOnly")
-	int32 MyInt_VDO_BlueprintReadOnly = 30;
+
+	//--------------------------------- MIX ---------------------------------//
 
 	/**
-	 * VisibleInstanceOnly, BlueprintReadOnly
-	 *
-	 * Peut être lu mais ne peut pas être modifié depuis un Blueprint.  
-	 * Incompatible avec le specifier BlueprintReadWrite.
-	 */
-	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = "Les Indispensables|ReadOnly")
-	int32 MyInt_VIO_BlueprintReadOnly = 30;
+ 	 * Editable partout et accessible en Blueprint.
+ 	 * -> Dans le moteur : visible et modifiable dans le panneau "Details" (Defaults & Instances).
+ 	 * -> En Blueprint : getter + setter accessibles.
+ 	 */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "EditAnywhere|ReadWrite")
+	float MyFloat_EditAnywhere_BlueprintReadWrite = 30;
 
 	/**
-	 * VisibleAnywhere, BlueprintReadOnly
-	 *
-	 * Peut être lu mais ne peut pas être modifié depuis un Blueprint.  
-	 * Incompatible avec le specifier BlueprintReadWrite.
+	 * Editable uniquement dans les Defaults, pas dans les instances.
+	 * -> Dans le moteur : modifiable dans l’asset default.
+	 * -> En Blueprint : getter + setter accessibles.
 	 */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Les Indispensables|ReadOnly")
-	int32 MyInt_VA_BlueprintReadOnly = 30;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "EditDefaultsOnly|ReadWrite")
+	float MyFloat_EditDefaultsOnly_BlueprintReadWrite = 30;
 
 	/**
-	 * EditDefaultsOnly, BlueprintReadOnly
-	 *
-	 * Peut être lu mais ne peut pas être modifié depuis un Blueprint.  
-	 * Incompatible avec le specifier BlueprintReadWrite.
+	 * Editable uniquement dans les instances (placées dans un niveau).
+	 * -> Dans le moteur : modifiable dans l'instance.
+	 * -> En Blueprint : getter + setter accessibles.
+	 * -> Subtilité ici; comme il est en BlueprintReadWrite, il peut être edité dans le default via le pannaux "MyBlueprint" en cliquant sur la variable (ouvre la variable dans le panneau detail)
 	 */
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Les Indispensables|ReadOnly")
-	int32 MyInt_EDO_BlueprintReadOnly = 30;
+	UPROPERTY(EditInstanceOnly, BlueprintReadWrite, Category = "EditInstanceOnly|ReadWrite")
+	float MyFloat_EditInstanceOnly_BlueprintReadWrite = 30;
 
 	/**
-	 * EditInstanceOnly, BlueprintReadOnly
-	 *
-	 * Peut être lu mais ne peut pas être modifié depuis un Blueprint.  
-	 * Incompatible avec le specifier BlueprintReadWrite.
+	 * Visible partout (classe + instances) mais non modifiable dans le panneau "Details".
+	 * -> Dans le moteur : affiché mais grisé, valeur non éditable.
+	 * -> En Blueprint : getter + setter accessibles.
+	 * -> Subtilité ici; même avec BlueprintReadWrite, il peut être pas edité dans le default via le pannaux "MyBlueprint" en cliquant sur la variable (ouvre la variable dans le panneau detail)
 	 */
-	UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "Les Indispensables|ReadOnly")
-	int32 MyInt_EIO_BlueprintReadOnly = 30;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "VisibleAnywhere|ReadWrite")
+	float MyFloat_VisibleAnywhere_BlueprintReadWrite = 30;
 
 	/**
-	 * EditAnywhere, BlueprintReadOnly
-	 *
-	 * Peut être lu mais ne peut pas être modifié depuis un Blueprint.  
-	 * Incompatible avec le specifier BlueprintReadWrite.
+	 * Visible uniquement dans les Defaults, mais non éditable.
+	 * -> Dans le moteur : affiché mais grisé.
+	 * -> En Blueprint : getter + setter accessibles.
 	 */
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Les Indispensables|ReadOnly")
-	int32 MyInt_EA_BlueprintReadOnly = 30;
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "VisibleDefaultsOnly|ReadWrite")
+	float MyFloat_VisibleDefaultsOnly_BlueprintReadWrite = 30;
+
+	/**
+	 * Visible uniquement dans les instances, mais non éditable.
+	 * -> Dans le moteur : affiché mais grisé.
+	 * -> En Blueprint : getter + setter accessibles.
+	 */
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite, Category = "VisibleInstanceOnly|ReadWrite")
+	float MyFloat_VisibleInstanceOnly_BlueprintReadWrite = 30;
+
+	/**
+	 * Editable partout et accessible en Blueprint en lecture seule.
+	 * -> Dans le moteur : modifiable dans "Details".
+	 * -> En Blueprint : seul le getter est accessible.
+	 */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "EditAnywhere|ReadOnly")
+	float MyFloat_EditAnywhere_BlueprintReadOnly = 30;
+
+	/**
+	 * Editable uniquement dans les Defaults.
+	 * -> Dans le moteur : modifiable dans l’asset par défaut.
+	 * -> En Blueprint : getter seulement.
+	 */
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "EditDefaultsOnly|ReadOnly")
+	float MyFloat_EditDefaultsOnly_BlueprintReadOnly = 30;
+
+	/**
+	 * Editable uniquement dans les instances.
+	 * -> Dans le moteur : modifiable uniquement quand placé dans un niveau.
+	 * -> En Blueprint : getter seulement.
+	 */
+	UPROPERTY(EditInstanceOnly, BlueprintReadOnly, Category = "EditInstanceOnly|ReadOnly")
+	float MyFloat_EditInstanceOnly_BlueprintReadOnly = 30;
+
+	/**
+	 * Visible partout, non éditable.
+	 * -> Dans le moteur : affiché mais grisé dans "Details".
+	 * -> En Blueprint : getter seulement.
+	 */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "VisibleAnywhere|ReadOnly")
+	float MyFloat_VisibleAnywhere_BlueprintReadOnly = 30;
+
+	/**
+	 * Visible uniquement dans les Defaults, non éditable.
+	 * -> Dans le moteur : affiché mais grisé dans l’asset par défaut.
+	 * -> En Blueprint : getter seulement.
+	 */
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "VisibleDefaultsOnly|ReadOnly")
+	float MyFloat_VisibleDefaultsOnly_BlueprintReadOnly = 30;
+
+	/**
+	 * Visible uniquement dans les instances, non éditable.
+	 * -> Dans le moteur : affiché mais grisé dans les instances.
+	 * -> En Blueprint : getter seulement.
+	 */
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = "VisibleInstanceOnly|ReadOnly")
+	float MyFloat_VisibleInstanceOnly_BlueprintReadOnly = 30;
 };
