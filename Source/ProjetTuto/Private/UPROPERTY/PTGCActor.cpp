@@ -7,7 +7,6 @@
 
 APTGCActor::APTGCActor(const FObjectInitializer& ObjectInitializer)
 	:Super(ObjectInitializer),
-	MyFloat(10),
 	MyEnum(EME_Max),
 	MyEnum2(EMyEnum2::EME2_Max)
 {

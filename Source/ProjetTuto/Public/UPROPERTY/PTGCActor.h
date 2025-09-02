@@ -1,4 +1,4 @@
-// Enguerran COBERT Alias Opaax Dev, All Right Reserved
+// Enguerran COBERT Alias Opaax Dev, All Rights Reserved
 
 #pragma once
 
@@ -9,9 +9,10 @@
 class UPTGCObject;
 
 /**
- * @Class FMyCustomClass
- * Montrer le fonctionement de la macro UPROPERTY
- * ne marche pas car pas UCLASS, hérite pas de UObject
+ * @class FMyCustomClass
+ * 
+ * Exemple pour montrer le fonctionnement de la macro UPROPERTY.
+ * Ne fonctionne pas car ce n’est pas une UCLASS et n’hérite pas de UObject.
  */
 class PROJETTUTO_API FMyCustomClass
 {
@@ -29,7 +30,6 @@ USTRUCT()
 struct FMyStruct
 {
 	GENERATED_BODY()
-	
 };
 
 enum EMyRawEnum { EMRE_Max };
@@ -42,35 +42,37 @@ enum class EMyEnum2 : uint8 { EME2_Max };
 
 
 /**
- * Les types que UHT peut interpréter:
+ * Types que UHT peut interpréter :
  *
- * Les class Unreal:
- * FString
- * FVector
- * FName
+ * Classes Unreal :
+ * - FString
+ * - FVector
+ * - FName, etc.
  *
- * Les primitives
- * uint8,16,32...
- * int8,16,32.....
- * float
- * double
+ * Containers Unreal :
+ * - TArray
+ * - TMap
+ * - TSet, etc.
  *
- * Les struct avec une balise USTRUCT
- * ex: @FMyStruct
+ * Types primitifs :
+ * - uint8, uint16, uint32...
+ * - int8, int16, int32...
+ * - float
+ * - double
+ * - bool
  *
- * les class avec une balise UCLASS et qui hérite au minimum de UObject
- * ex: @UMyClass
+ * Structs avec la balise USTRUCT
+ * ex : @FMyStruct
  *
- * les enum avec une balise UENUM
- * ex: @EMyEnum (pas recommandé et nécessite de 'TEnumAsByte<EMyEnum>'
- * ex: @EMyEnum2 enum typé, uint8 ici
+ * Classes avec la balise UCLASS et héritant au minimum de UObject
+ * ex : @UMyClass
  *
- * les container Unreal
- * TArray
- * TMap
- * TSet...
+ * Enums avec la balise UENUM
+ * ex : @EMyEnum (non recommandé et nécessite TEnumAsByte<EMyEnum>)
+ * ex : @EMyEnum2 (enum typé, ici en uint8)
  *
- * Les class Std::CPP ne sont pas recommandées pour du code Runtime, en revanche, si le code est pour de l'éditor only il peut être utilisé
+ * Les classes standards C++ ne sont pas recommandées pour du code Runtime.
+ * En revanche, si le code est uniquement destiné à l’éditeur, elles peuvent être utilisées.
  */
 UCLASS()
 class PROJETTUTO_API APTGCActor : public AActor
@@ -81,17 +83,19 @@ class PROJETTUTO_API APTGCActor : public AActor
 	//--------------------------------- PUBLIC ---------------------------------//
 public:
 	/**
-	 * Log tous les membres UPROPERTY de cette class
-	 * Va aussi log les UPROPERTY hérité! (AActor)
+	 * Log tous les membres UPROPERTY de cette classe.
+	 * Va aussi loguer les UPROPERTY hérités (comme ceux d’AActor).
 	 */
 	void LogUpropertyNames();
 	
 	//--------------------------------- GETTER - SETTER ---------------------------------//
 
 	/**
-	 * Le but, montrer que TObjectPtr marche comme un smart pointer TSharedPtr
-	 * Même si ce membre n'est pas marqué comme UPROPERTY, si il est référencer la GC ne va pas le "Invalidate"
-	 * @return l'objet TObjObject qui n'est pas UPROP
+	 * But : montrer que TObjectPtr fonctionne comme un smart pointer (ex : TSharedPtr).
+	 * Même si ce membre n’est pas marqué comme UPROPERTY, s’il est référencé,
+	 * le GC ne va pas l’invalider.
+	 * 
+	 * @return l’objet TObjObject qui n’est pas marqué UPROPERTY.
 	 */
 	UFUNCTION(BlueprintCallable, Category="PTGCActor")
 	UPTGCObject* GetTObjObject() const { return TObjObject; }
@@ -105,25 +109,25 @@ public:
 	//--------------------------------- PUBLIC ---------------------------------//
 public:
 	/**
-	 * Simple float pour montrer le fonctionnement de Unreal Build Tool et Unreal Header Tool
+	 * Simple float pour illustrer le fonctionnement de l’Unreal Build Tool et de l’Unreal Header Tool.
 	 */
-	UPROPERTY()
-	float MyFloat;
+	UPROPERTY(BlueprintReadWrite, meta=(UIMax = 15))
+	float MyFloat{10};
 	
 
 	/**
-	 * Ce membre n'est pas connu de l'éditeur
+	 * Ce membre n’est pas exposé à l’éditeur.
 	 */
 	float MyFloatNotReflected{0};
 
 	/**
-	 * La GC détruira l'objet que se ptr pointe dès qu'il sera appelé
+	 * Le GC détruira l’objet pointé par ce pointeur brut dès qu’il ne sera plus référencé.
 	 */
 	UPTGCObject* RawObject{nullptr};
 
 	/**
-	 * La GC détruira l'objet que se ptr pointe dès qu'il sera appelé
-	 * MAIS si il est référencé par un autre FObjetsProperty il ne le sera pas!
+	 * Le GC détruira l’objet pointé par ce TObjectPtr
+	 * SAUF s’il est référencé par une autre propriété UObject (FObjectProperty).
 	 */
 	TObjectPtr<UPTGCObject> TObjObject;
 	
@@ -135,28 +139,28 @@ public:
 	
 
 	/**
-	 * seulement les class UCLASS qui hérite de UObject peuvent être Uprop
+	 * Seules les classes marquées UCLASS et héritant de UObject peuvent être des UPROPERTY.
 	 */
 	//UPROPERTY()
 	//FMyCustomClass* MyCustomClass;
 
 	/**
-	 * seulement les UENUM peuvent être Uprop
-	 * TEnumAsByte<MyEnum> si pas de type definie
-	 * MyEnum2 si un type est définie (i.e. enum class MyEnum2 : uint8)
+	 * Seules les UENUM peuvent être des UPROPERTY.
+	 * Utiliser TEnumAsByte<MyEnum> si aucun type n’est défini.
+	 * Utiliser directement MyEnum2 si un type est défini (i.e. enum class MyEnum2 : uint8).
 	 */
 	//UPROPERTY()
 	//EMyRawEnum MyRawEnum;
 
 	/**
-	 * Enum classic
-	 * moins recommandé en c++ moderne
+	 * Enum classique.
+	 * Moins recommandé en C++ moderne.
 	 */
 	UPROPERTY()
 	TEnumAsByte<EMyEnum> MyEnum;
 
 	/**
-	 * Solution préféré!
+	 * Solution préférée !
 	 */
 	UPROPERTY()
 	EMyEnum2 MyEnum2;
