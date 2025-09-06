@@ -62,14 +62,16 @@ public:
 	//--------------------------------- PROTECTED ---------------------------------//
 protected:
 	/**
-	 * En arrière-plan, UHT crée automatiquement des 'Getter - Setter' pour les propriétés
+	 * En arrière-plan, UHT créer automatiquement des 'Getter - Setter' pour les variables
 	 * ayant le spécificateur BlueprintReadWrite.
+	 *
+	 * Ce qui en Blueprint, permet de drag and drop dans l'event graph et de get/set la valeur de la variables
 	 */
 	UPROPERTY(BlueprintReadWrite)
 	FString MyString_ReadWrite = TEXT("MyString_ReadWrite");
 
 	/**
-	 * En revanche, on peut personnaliser quelles fonctions utiliser pour le spécificateur BlueprintReadWrite.
+	 * En revanche, on peut personnaliser quelles fonctions que le moteur va utiliser pour les get/setd du spécificateur BlueprintReadWrite.
 	 * Cela nous permet d’effectuer plus d’opérations que simplement obtenir ou modifier la valeur d’un membre.
 	 */
 	UPROPERTY(BlueprintReadWrite, BlueprintGetter = GetMyString_ReadWrite_GetSet, BlueprintSetter = "SetMyString_ReadWrite_GetSet")
