@@ -40,6 +40,7 @@ protected:
 
 	//--------------------------------- PRIVATE ---------------------------------//
 private:
+	//--------------------------------- AllowPrivateAccess ---------------------------------//
 	/**
  	 * AllowPrivateAccess permet de 'forcer' un membre private/protected à être exposé
  	 * dans l'éditeur et en Blueprint via le système de réflexion d'Unreal.
@@ -60,6 +61,15 @@ private:
 	UPROPERTY(BlueprintReadWrite, Category="MetaSpecifier", meta=(AllowPrivateAccess = "true"))
 	FString MyStringPrivateAccessible = TEXT("MyStringPrivateAccessible");
 
+	//--------------------------------- DisplayName ---------------------------------//
+	/**
+ 	 * DisplayName permet d’afficher dans le moteur un nom différent
+ 	 * de celui défini dans le fichier .h.
+ 	 */
+	UPROPERTY(EditAnywhere, meta = (DisplayName = "MyIntDisplayName"))
+	int32 m_myIntDisplayName = 400;
+
+	//--------------------------------- ExposeOnSpawn ---------------------------------//
 	/**
 	 * ExposeOnSpawn permet d'exposer des variables sur les nodes SpawnActor construct Object en Blueprint.
 	 *
@@ -69,5 +79,24 @@ private:
 	 * La valeur peut être sous forme de string "true" mais il est recommander de mettre la valeur sous forme de bool
 	 */
 	UPROPERTY(BlueprintReadOnly, meta=(AllowPrivateAccess = true, ExposeOnSpawn = true))
-	int32 StartingHealth = 200;
+	int32 MyIntExposed = 200;
+
+	//--------------------------------- ForceInlineRow ---------------------------------//
+
+	/**
+ 	 * ForceInlineRow, pour les TMap, permet d’aligner horizontalement dans le Details Panel
+ 	 * la clé (Key) et la valeur (Value).
+ 	 *
+ 	 * Dans beaucoup de cas, cela améliore la lisibilité et permet de gagner de la place
+ 	 * dans le Details Panel.
+ 	 */
+	UPROPERTY(EditAnywhere, meta=(ForceInlineRow))
+	TMap<FName, int32> MyMapInlineRow;
+	
+	/**
+	 * ForceInlineRow, exemple sans le specifier
+	 */
+	UPROPERTY(EditAnywhere)
+	TMap<FName, int32> MyMapNotInlineRow;
+	
 };
